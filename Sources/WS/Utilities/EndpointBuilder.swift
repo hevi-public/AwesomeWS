@@ -70,7 +70,7 @@ public class EndpointBuilder<Observer: AnyObserver> {
         }
         
         application.wsStorage[wsid.key] = observer
-        WSRoute(root: application.grouped(middlewares), path: path).webSocket(onUpgrade: observer.handle)
+        WSRoute(root: application.grouped(middlewares), path: path).webSocket(maxFrameSize: .override(1000000), onUpgrade: observer.handle)
         
         let observerType = String(describing: Observer.self)
         application.logger.notice("[⚡️] 🚀 \(observerType) starting on \(application.server.configuration.address)/\(path.string)")
